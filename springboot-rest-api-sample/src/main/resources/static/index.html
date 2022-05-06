@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <style>
+
+      *{
+
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+    
+    header{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .div-header{
+        text-align: center;
+        width: 70%;
+        margin-top: 20px;
+        border: 4px solid black;
+    }
+    
+    .div-header h2{
+        margin: 0px;
+        font-weight: bold;
+    }
+    
+    .div-main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container{
+        margin-top: 20px;;
+        width: 70%;
+        border: 4px solid black;
+        padding: 10px;
+        
+    
+    }
+
+    .modal-header{
+      align-items: baseline;
+    }
+
+    .modal-header .mb-3{
+      width: 100%;
+    }
+
+    </style>
+    
+</head>
+
+<body>
+
+  <header>
+    <div class="div-header">
+      <h2>CRUD EM REST API</h2>
+    </div>
+  </header>
+
+  <div class="div-main">
+    <div class="container">
+      <form action="" id="formMain">
+
+        <div class="mb-3">
+          <label for="id" class="form-label">ID:</label>
+          <input type="text" readonly="readonly" class="form-control" id="id">
+        </div>
+
+        <div class="mb-3">
+          <label for="idade" class="form-label">IDADE:</label>
+          <input type="number" class="form-control" id="idade" placeholder="33">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">EMAIL:</label>
+          <input type="email" class="form-control" id="email" placeholder="exemplo@gmail.com">
+        </div>
+
+        <div class="mb-3">
+          <label for="nome" class="form-label">NOME:</label>
+          <input type="text" class="form-control" id="nome" placeholder="falano">
+        </div>
+
+        <button type="button" class="btn btn-success" onclick="salvar();">SALVAR</button>
+        <button type="button" class="btn btn-warning" onclick="document.querySelector('#formMain').reset();">NOVO</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">BUSCAR</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="nome" placeholder="Buscar por nome">
+          </div>
+          <button type="button" class="btn btn-primary btn-modal" >BUSCAR</button>
+        </div>
+        <div class="modal-body">
+          
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">ID:</th>
+                <th scope="col"> Nome:</th>
+                <th scope="col"> Editar:</th>
+                <th scope="col"> Excluir</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Buscar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"> </script>
+
+    <script>
+    	function salvar(){
+    const idComp = document.querySelector('#id');
+    const nomeComp = document.querySelector('#nome');
+    const idadeComp = document.querySelector('#idade');
+    const emailComp = document.querySelector('#email');
+
+    let usuario={
+        id:idComp.value, nome:nomeComp.value, idade:idadeComp.value, email:emailComp.value
+    }
+
+    const options = {
+        method:'POST',
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        mode:'cors',
+        cache:'default',
+        body:JSON.stringify(usuario)
+    }
+
+    fetch('salvarUsuario', options)
+    .then(response => response.json())
+    .then(function(json){
+      idComp.value = json.id;
+      nomeComp.value = json.nome;
+      idadeComp.value = json.idade;
+      emailComp.value = json.email;
+    })
+    .catch(err => alert(err))
+
+}
+
+function buscar (){
+
+
+}
+    </script>
+
+</body>
+
+</html>

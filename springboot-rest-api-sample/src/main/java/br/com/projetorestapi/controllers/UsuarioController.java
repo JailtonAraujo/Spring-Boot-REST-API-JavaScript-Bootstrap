@@ -36,20 +36,6 @@ public class UsuarioController {
      * @return greeting text
      */
     
-    @RequestMapping(value = "/testando/{nome}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public String test(@PathVariable String nome ) {
-    	
-    	Usuario usuario = new Usuario();
-    	usuario.setIdade(20);
-    	usuario.setNome(nome);
-    	
-    	usuarioRepository.save(usuario);
-    	
-    	
-    	return "Ola "+nome;
-    }
-    
     @GetMapping(value = "listardados")/*METODO DE API*/
     @ResponseBody/*RETORNA OS DADOS PARA O CORPO DE RESPOSTA*/
     public ResponseEntity<List<Usuario>> listarDados(){
