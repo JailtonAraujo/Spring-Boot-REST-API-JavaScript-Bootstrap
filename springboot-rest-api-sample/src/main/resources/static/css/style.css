@@ -1,5 +1,4 @@
 *{
-
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
@@ -11,6 +10,7 @@ header{
 }
 
 .div-header{
+	padding: 10px 5px 10px 5px;
     text-align: center;
     width: 70%;
     margin-top: 20px;
@@ -39,4 +39,12 @@ header{
     padding: 10px;
     
 
+}
+
+.modal-header{
+    align-items: baseline;
+}
+
+.modal-header .mb-3{
+    width: 100%;
 }

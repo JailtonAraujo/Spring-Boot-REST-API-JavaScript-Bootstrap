@@ -55,7 +55,7 @@ public class UsuarioController {
     
     @DeleteMapping(value = "deletar")
     @ResponseBody
-    public ResponseEntity<String> deletarUsuario(@RequestParam Long id){
+    public ResponseEntity<String> deletarUsuario(@RequestParam(name = "userId") Long id){
     	
     	usuarioRepository.deleteById(id);
     	
