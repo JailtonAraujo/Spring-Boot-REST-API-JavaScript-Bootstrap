@@ -64,7 +64,7 @@ public class UsuarioController {
     
     @GetMapping(value = "burscarPorId")
     @ResponseBody
-    public ResponseEntity<Usuario> buscarUsuarioId(@RequestParam(name = "Userid") Long Userid){
+    public ResponseEntity<Usuario> buscarUsuarioId(@RequestParam(name = "userId") Long Userid){
     	
     	Usuario usuario = usuarioRepository.findById(Userid).get();
     	
@@ -84,9 +84,9 @@ public class UsuarioController {
     	return new ResponseEntity<Usuario>(usuarioR, HttpStatus.OK);
     }
     
-    @GetMapping(value = "burscarPorNome")
+    @GetMapping(value = "buscarPorNome")
     @ResponseBody
-    public ResponseEntity<List<Usuario>> burscarPorNome(@RequestParam(name = "name") String name){
+    public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam(name = "name") String name){
     	
     	List<Usuario> listUsers = usuarioRepository.buscarPorNome(name.trim().toUpperCase());
     	

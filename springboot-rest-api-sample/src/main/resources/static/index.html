@@ -110,9 +110,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="mb-3">
-            <input type="text" class="form-control" id="nome" placeholder="Buscar por nome">
+            <input type="text" class="form-control" id="nomeModal" placeholder="Buscar por nome">
           </div>
-          <button type="button" class="btn btn-primary btn-modal" >BUSCAR</button>
+          <button type="button" class="btn btn-primary btn-modal" onclick="buscar();" >BUSCAR</button>
         </div>
         <div class="modal-body">
           
@@ -125,15 +125,16 @@
                 <th scope="col"> Excluir</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
 
             </tbody>
           </table>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Buscar</button>
+          <button type="button" class="btn btn-secondary" id="btnCloseModal" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" >Buscar</button>
+          <span id="cont"></span>
         </div>
       </div>
     </div>
@@ -143,11 +144,13 @@
     crossorigin="anonymous"> </script>
 
     <script>
-    	function salvar(){
+
     const idComp = document.querySelector('#id');
     const nomeComp = document.querySelector('#nome');
     const idadeComp = document.querySelector('#idade');
     const emailComp = document.querySelector('#email');
+
+    	function salvar(){
 
     let usuario={
         id:idComp.value, nome:nomeComp.value, idade:idadeComp.value, email:emailComp.value
@@ -168,6 +171,7 @@
       nomeComp.value = json.nome;
       idadeComp.value = json.idade;
       emailComp.value = json.email;
+      alert("Salvo com Sucesso!")
     })
     .catch(err => alert(err))
 
@@ -175,8 +179,84 @@
 
 function buscar (){
 
+  const inputBusca = document.querySelector('#nomeModal');
+
+  const options = {
+        method:'GET',
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        mode:'cors',
+        cache:'default',
+  }
+
+  fetch(`buscarPorNome?name=${inputBusca.value}`, options)
+  .then(response => response.json())
+  .then(function(json){
+   
+    let tbody = document.querySelector('#tableBody');
+	tbody.textContent = '';
+
+    for(let i=0;i<=json.length;i++){
+
+      let tr = tbody.insertRow();
+
+      let td_id = tr.insertCell();
+      let td_nome = tr.insertCell();
+      let td_editar = tr.insertCell();
+      let td_excluir = tr.insertCell();
+
+      let btnEditar = document.createElement('button');
+      btnEditar.textContent = 'EDITAR';
+      btnEditar.classList.add('btn');
+      btnEditar.classList.add('btn-info')
+      btnEditar.type = 'button';
+      btnEditar.setAttribute("onclick", "editar(\""+json[i].id+"\");");
+
+      let btnExcluir = document.createElement('button');
+      btnExcluir.textContent = 'EXCLUIR';
+      btnExcluir.classList.add('btn');
+      btnExcluir.classList.add('btn-danger');
+      btnExcluir.type = 'button';
+      btnExcluir.setAttribute("onclick", "excluir(\""+json[i].id+"\");");
+
+      td_id.textContent = json[i].id;
+      td_nome.textContent = json[i].nome;
+      td_editar.appendChild(btnEditar);
+      td_excluir.appendChild(btnExcluir);
+    }
+
+    document.querySelector('#tableBody').textContent = `Resultados: ${json.length}`;
+
+  })
+}
+
+function editar (id){
+  
+  const options = {
+        method:'GET',
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        mode:'cors',
+        cache:'default',
+  }
+
+  fetch(`burscarPorId?userId=${id}`,options)
+  .then(response => response.json())
+  .then(function(json){
+   
+    idComp.value = json.id;
+    nomeComp.value = json.nome;
+    idadeComp.value = json.idade;
+    emailComp.value = json.email;
+
+    document.querySelector('#btnCloseModal').click();
+
+  }).cath(err => alert(err));
 
 }
+
+function excluir(id){
+	alert(id);
+}
+
     </script>
 
 </body>
